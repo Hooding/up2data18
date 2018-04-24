@@ -9,6 +9,7 @@ import { NavbarModule } from './shared/navbar/navbar.module';
 import { FooterModule } from './shared/footer/footer.module';
 import { SidebarModule } from './sidebar/sidebar.module';
 import { LbdModule } from './lbd/lbd.module';
+import { AgmCoreModule } from '@agm/core';
 
 import { AppComponent } from './app.component';
 
@@ -52,7 +53,10 @@ import { SliceVisualComponent } from './d3/visuals/shared/slice-visual/slice-vis
     SidebarModule,
     RouterModule,
     AppRoutingModule,
-    LbdModule
+    LbdModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyAC1r63zvq8QbhkrqF6uJ-d7yWYHQ_Du6k'
+    })
   ],
   providers: [D3Service],
   bootstrap: [AppComponent]

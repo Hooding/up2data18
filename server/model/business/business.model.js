@@ -32,8 +32,9 @@ const offerSchema = new mongoose.Schema({
 
 const beaconSchema = new mongoose.Schema({
   _id: { auto: false },
-  beaconId: { type: String, required: true, unique: true },
-  radius: { type: Number }
+  attachmentKey: { type: String, required: true, unique: true },
+  attachmentValue: { type: String, required: true },
+  uuId: { type: String, required: true, unique: true }
 })
 
 const businessSchema = new mongoose.Schema({

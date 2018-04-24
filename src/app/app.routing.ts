@@ -10,10 +10,11 @@ import { SatisfactionComponent } from './satisfaction/satisfaction.component';
 import { InvolvementComponent } from './involvement/involvement.component';
 
 const routes: Routes =[
-    { path: 'demographic',      component: DemographicComponent },
-    { path: 'interests', component: InterestsComponent },
-    { path: 'satisfaction', component: SatisfactionComponent},
-    { path: 'involvement', component: InvolvementComponent},
+  { path: 'map', component: MapsComponent },
+    // { path: 'demographic',      component: DemographicComponent },
+    // { path: 'interests', component: InterestsComponent },
+    // { path: 'satisfaction', component: SatisfactionComponent},
+    // { path: 'involvement', component: InvolvementComponent},
       { path: '',          redirectTo: 'demographic', pathMatch: 'full' }
 ];
 
