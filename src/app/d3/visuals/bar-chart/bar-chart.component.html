@@ -1,0 +1,15 @@
+<div class="card">
+    <div class="header">
+        <h4 class="title">{{title}}</h4>
+        <p class="category">{{subtitle}}</p>
+    </div>
+    <div class="content">
+        <div class="svg-container">
+            <svg class="svg" preserveAspectRatio="xMinYMin meet" [attr.viewBox]="'0 0 ' + options.width + ' ' + options.height">
+                <g id="g-barchart{{id}}" class="g-barchart" [attr.transform]="'translate(' + options.left + ',' + options.top + ')'">
+                    <g [bar-visual]="bar" *ngFor="let bar of bars" (mouseenter)="onHover(bar)"></g>
+                </g>
+            </svg>
+        </div>
+    </div>
+</div>
