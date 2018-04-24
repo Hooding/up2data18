@@ -1,5 +1,28 @@
 <!-- <div id="map"></div> -->
 
-<agm-map style="height: 300px" [latitude]="lat" [longitude]="lng">
-    <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+<agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [disableDefaultUI]="false" [zoomControl]="true" [styles]="styles">
+    <agm-polygon *ngFor="let polygon of polygons" [paths]="polygon.points" [fillColor]="polygon.isClaimed ? 'green' : ''" (polyClick)="polyClicked(polygon, infoWindow)">
+        <agm-info-window #infoWindow [latitude]="selectedPoint?.lat" [longitude]="selectedPoint?.lng" [isOpen]="isOpen">
+            <strong>
+                <form>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="">Business Options</label>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div *ngIf="polygon.isClaimed" class="col-md-12">
+                            <button type="button" class="btn btn-danger">DE-CLAIM</button>
+                            <button type="button" class="btn btn-primary btn-fill">EDIT</button>
+                            <button type="button" class="btn btn-primary btn-fill">STATS</button>
+                        </div>
+                        <div *ngIf="!polygon.isClaimed" class="col-md-12">
+                            <button type="button" class="btn btn-primary btn-fill" (click)="claimOnClick(polygon)">CLAIM</button>
+                        </div>
+                    </div>
+                </form>
+            </strong>
+        </agm-info-window>
+    </agm-polygon>
 </agm-map>

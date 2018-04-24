@@ -1,56 +1,60 @@
 import { Component, OnInit } from '@angular/core';
-// import { } from '@types/googlemaps';
-// declare const google: any;
-// interface Marker {
-// lat: number;
-// lng: number;
-// label?: string;
-// draggable?: boolean;
-// }
+import { LatLng } from '@agm/core';
+// import { MatDialog } from '@angular/material';
+
 @Component({
   selector: 'app-maps',
   templateUrl: './maps.component.html',
   styleUrls: ['./maps.component.css']
 })
 export class MapsComponent implements OnInit {
-    // map: google.maps.Map;
     lat: number = 51.678418;
   lng: number = 7.809007;
+  zoom = 15;
+  styles = [
+    {
+      featureType: "poi",
+      stylers: [
+       { visibility: "off" }
+      ]   
+     }
+ ];
+ isOpen: Boolean;
+ selectedPoint;
 
-  constructor() { }
+ polygons = [{
+     isClaimed: false,
+     points: [
+        { lat: 51.678418, lng: 7.809007 }, { lat: 51.68419, lng: 7.9 }, { lat: 51.66842, lng: 7.8 } 
+     ]
+ }];
+
+//   constructor(public dialog: MatDialog) { }
 
   ngOnInit() {
-//       const myLatlng = new google.maps.LatLng(40.748817, -73.985428);
-//       const mapOptions = {
-//           zoom: 13,
-//           center: myLatlng,
-//           scrollwheel: false, // we disable de scroll over the map, it is a really annoing when you scroll through page
-//           styles: [
-//               {'featureType': 'water', 'stylers': [{'saturation': 43}, {'lightness': -11}, {'hue': '#0088ff'}]},
-//               {'featureType': 'road', 'elementType': 'geometry.fill', 'stylers': [{'hue': '#ff0000'},
-//               {'saturation': -100}, {'lightness': 99}]},
-//               {'featureType': 'road', 'elementType': 'geometry.stroke', 'stylers': [{'color': '#808080'},
-//               {'lightness': 54}]},
-//               {'featureType': 'landscape.man_made', 'elementType': 'geometry.fill', 'stylers': [{'color': '#ece2d9'}]},
-//               {'featureType': 'poi.park', 'elementType': 'geometry.fill', 'stylers': [{'color': '#ccdca1'}]},
-//               {'featureType': 'road', 'elementType': 'labels.text.fill', 'stylers': [{'color': '#767676'}]},
-//               {'featureType': 'road', 'elementType': 'labels.text.stroke', 'stylers': [{'color': '#ffffff'}]},
-//               {'featureType': 'poi', 'stylers': [{'visibility': 'off'}]},
-//               {'featureType': 'landscape.natural', 'elementType': 'geometry.fill', 'stylers': [{'visibility': 'on'},
-//               {'color': '#b8cb93'}]},
-//               {'featureType': 'poi.park', 'stylers': [{'visibility': 'on'}]},
-//               {'featureType': 'poi.sports_complex', 'stylers': [{'visibility': 'on'}]},
-//               {'featureType': 'poi.medical', 'stylers': [{'visibility': 'on'}]},
-//               {'featureType': 'poi.business', 'stylers': [{'visibility': 'simplified'}]}
-//           ]
-//       };
-//       this.map = new google.maps.Map(document.getElementById('map'), mapOptions);
-//       const Marker = new google.maps.Marker({
-//           position: myLatlng,
-//           title: 'Hello World!'
-//       });
-//   // To add the marker to the map, call setMap();
-//   Marker.setMap(this.map);
+
   }
 
+  polyClicked(polygon, window) {
+      if (this.isOpen) {
+          this.isOpen = false;
+    } else {
+        this.isOpen = Object.assign({}, window.isOpen);
+        this.selectedPoint = this.getPolygonCenter(polygon.points);
+      }
+  }
+
+  claimOnClick(polygon) {
+    polygon.isClaimed = true;
+  }
+
+  private getPolygonCenter(points) {
+      const lngs = points.map(elem => elem.lng);
+      const lats = points.map(elem => elem.lat);
+
+      return {
+        lng: (Math.min(...lngs) + Math.max(...lngs)) / 2,
+        lat: (Math.min(...lats) + Math.max(...lats)) / 2
+      };
+  }
 }

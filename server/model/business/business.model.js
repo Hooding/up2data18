@@ -27,7 +27,8 @@ const offerSchema = new mongoose.Schema({
   targetAudience: {
     type: targetAudienceSchema,
     required: true
-  }
+  },
+  expiration: { type: Date }
 });
 
 const beaconSchema = new mongoose.Schema({
