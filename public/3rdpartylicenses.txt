@@ -83,10 +83,6 @@ MIT
 MIT
 MIT
 
-@angular/http@4.4.7
-MIT
-MIT
-
 @angular/router@4.4.7
 MIT
 MIT

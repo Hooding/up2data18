@@ -14,8 +14,8 @@
                     <div class="row">
                         <div *ngIf="polygon.isClaimed" class="col-md-12">
                             <button type="button" class="btn btn-danger" (click)="claimOnClick(polygon)">DE-CLAIM</button>
-                            <button type="button" class="btn btn-primary btn-fill">EDIT</button>
-                            <button type="button" class="btn btn-primary btn-fill">STATS</button>
+                            <button type="button" class="btn btn-primary btn-fill" (click)="showEditDiv()">EDIT</button>
+                            <button type="button" class="btn btn-primary btn-fill" (click)="showStatsDiv()">STATS</button>
                         </div>
                         <div *ngIf="!polygon.isClaimed" class="col-md-12">
                             <button type="button" class="btn btn-primary btn-fill" (click)="claimOnClick(polygon)">CLAIM</button>
@@ -26,3 +26,50 @@
         </agm-info-window>
     </agm-polygon>
 </agm-map>
+<div style="height:80vh; width: 400px; position: absolute; left: 25%; top: 13.5vh; box-shadow:1px 1px 1px 0.5px rgba(0,0,0,0.4);background-color:white" *ngIf="!hideStats">
+    <!-- <form action=""> -->
+            <button type="button" class="btn-link pull-right" (click)="hideStatsDiv()"><strong>x</strong></button>
+    <!-- </form> -->
+    <!-- <div class="row"> -->
+        <!-- <div class="col-md-12"> -->
+            <div style="margin-left: 30px">
+                <h4>Business Statistics</h4>
+                <img src="assets/img/pie.png" alt="">
+                <img src="assets/img/bar.gif" style="width: 75%; height: 50%" alt="">
+                <h6>Unique Visitors</h6>245
+                <h6>Avg. Stay</h6>5mins
+            </div>
+        <!-- </div> -->
+    <!-- </div> -->
+</div>
+<div style="height:75vh; width: 400px; position: absolute; left: 25%; top: 15vh; box-shadow:1px 1px 1px 0.5px rgba(0,0,0,0.4);background-color:white" *ngIf="!hideEdit">
+        <button type="button" class="btn-link pull-right" (click)="hideEditDiv()"><strong>x</strong></button>
+    
+    <div style="margin-left: 30px">
+        <h4>Edit Business</h4>
+        <form action="" style="width: 340px">
+            <label for="">Name</label>
+            <input class="form-input" type="text" value="Kiosk Magniv">
+            <br>
+            <br>
+        <label for="">Beacon ID</label>
+        <input type="text">
+        <br>
+        <br>
+        <label for="">Beacon Attachment Key</label>
+        <input type="text">
+        <br>
+        <br>
+        <label for="">Beacon Attachment Value</label>
+        <input type="text">
+        <br>
+        <br>
+        <!-- <div class="row text-center" id="buttonrow"> -->
+            <button type="submit" class="col-md-6 btn btn-primary btn-block">Edit Offers</button>
+            <br>
+            <br>
+            <button type="submit" class="col-md-6 btn btn-fill btn-primary btn-block">Save</button>
+        <!-- </div> -->
+        </form>
+    </div>
+</div>

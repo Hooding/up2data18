@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LatLng } from '@agm/core';
-import { BusinessService } from '../services/business.service';
+// import { BusinessService } from '../services/business.service';
 // import { MatDialog } from '@angular/material';
 
 @Component({
@@ -11,9 +11,9 @@ import { BusinessService } from '../services/business.service';
 export class MapsComponent implements OnInit {
   ownerId = '';
 
-    lat: number = 51.678418;
-  lng: number = 7.809007;
-  zoom = 15;
+    lat: number = 31.255889;
+  lng: number = 34.799708;
+  zoom = 16;
   styles = [
     {
       featureType: "poi",
@@ -28,11 +28,21 @@ export class MapsComponent implements OnInit {
  polygons:any = [{
      isClaimed: false,
      points: [
-        { lat: 51.678418, lng: 7.809007 }, { lat: 51.68419, lng: 7.9 }, { lat: 51.66842, lng: 7.8 } 
+        { lat: 31.258889, lng: 34.799708 }, { lat:31.258500, lng: 34.799708 }, { lat:31.258500, lng: 34.799300 }, { lat: 31.258889, lng: 34.799300 }
      ]
- }];
+ }, 
+ {
+  isClaimed: false,
+  points: [
+     { lat: 31.255889, lng: 34.799708 }, { lat:31.255500, lng: 34.799708 }, { lat:31.255500, lng: 34.799300 }, { lat: 31.255889, lng: 34.799300 }
+  ]
+ }
 
-  constructor(public service: BusinessService) { }
+];
+
+hideStats = true;
+hideEdit = true;
+  // constructor(public service: BusinessService) { }
 
   ngOnInit() {
     // this.service.getBusinesses(this.ownerId)
@@ -76,5 +86,21 @@ export class MapsComponent implements OnInit {
         lng: (Math.min(...lngs) + Math.max(...lngs)) / 2,
         lat: (Math.min(...lats) + Math.max(...lats)) / 2
       };
+  }
+
+  hideStatsDiv() {
+    this.hideStats = true;
+  }
+
+  showStatsDiv() {
+    this.hideStats = false;
+  }
+
+  hideEditDiv() {
+    this.hideEdit = true;
+  }
+
+  showEditDiv() {
+    this.hideEdit = false;
   }
 }
