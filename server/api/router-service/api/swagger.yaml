@@ -1,0 +1,365 @@
+---
+swagger: "2.0"
+info:
+  description: "pre-alpha api documentation"
+  version: "0.0.1"
+  title: "city"
+host: "localhost:8080"
+basePath: "/api"
+schemes:
+- "http"
+paths:
+  /businesses:
+    get:
+      tags:
+      - "BusinessSide"
+      summary: "Get all businesses"
+      description: "Fetches all businesses owned by the owner and not owned by anyone."
+      operationId: "businessesGET"
+      parameters:
+      - name: "owner"
+        in: "header"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/BusinessObj"
+      x-swagger-router-controller: "BusinessSide"
+  /businesses/{businessId}:
+    patch:
+      tags:
+      - "BusinessSide"
+      summary: "Update business info."
+      description: "Updates the business info after an edit has happened on client\
+        \ side."
+      operationId: "businessesBusinessIdPATCH"
+      parameters:
+      - name: "businessId"
+        in: "path"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "business"
+        required: false
+        schema:
+          $ref: "#/definitions/business"
+      responses:
+        200:
+          description: "OK"
+      security:
+      - JWT: []
+      x-swagger-router-controller: "BusinessSide"
+  /businesses/claim/{businessId}:
+    patch:
+      tags:
+      - "BusinessSide"
+      summary: "Claims the business."
+      description: "Claims the business using the business id of the owner."
+      operationId: "businessesClaimBusinessIdPATCH"
+      parameters:
+      - name: "owner"
+        in: "header"
+        required: true
+        type: "string"
+      - name: "businessId"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/inline_response_200"
+      security:
+      - JWT: []
+      x-swagger-router-controller: "BusinessSide"
+  /businesses/declaim/{businessId}:
+    patch:
+      tags:
+      - "BusinessSide"
+      summary: "Unclaims the business."
+      description: "Unlaims the business using the business id of the owner."
+      operationId: "businessesDeclaimBusinessIdPATCH"
+      parameters:
+      - name: "owner"
+        in: "header"
+        required: true
+        type: "string"
+      - name: "businessId"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/inline_response_200"
+      security:
+      - JWT: []
+      x-swagger-router-controller: "BusinessSide"
+  /getAllZones:
+    post:
+      tags:
+      - "Client Mobile"
+      summary: "Get all current available beacons."
+      description: "Fetches all registered beacons from the database."
+      operationId: "getAllZonesPOST"
+      parameters: []
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/inline_response_200_1"
+      x-swagger-router-controller: "ClientMobile"
+  /getOffersForBeacon:
+    post:
+      tags:
+      - "Client Mobile"
+      summary: "Receives all offers for beacon"
+      description: "Receives all offers for beacon"
+      operationId: "getOffersForBeaconPOST"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/body"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/inline_response_200_2"
+      x-swagger-router-controller: "ClientMobile"
+securityDefinitions:
+  JWT:
+    description: ""
+    type: "apiKey"
+    name: "Authorization"
+    in: "header"
+definitions:
+  TargetAudience:
+    type: "object"
+    properties:
+      minAge:
+        type: "number"
+      maxAge:
+        type: "number"
+      gender:
+        type: "string"
+    example:
+      gender: "gender"
+      maxAge: 6.02745618307040320615897144307382404804229736328125
+      minAge: 0.80082819046101150206595775671303272247314453125
+  Offer:
+    type: "object"
+    properties:
+      title:
+        type: "string"
+      comment:
+        type: "string"
+      description:
+        type: "string"
+      targetAudience:
+        $ref: "#/definitions/TargetAudience"
+      expiration:
+        type: "string"
+    example:
+      targetAudience:
+        gender: "gender"
+        maxAge: 6.02745618307040320615897144307382404804229736328125
+        minAge: 0.80082819046101150206595775671303272247314453125
+      description: "description"
+      comment: "comment"
+      expiration: "expiration"
+      title: "title"
+  Beacon:
+    type: "object"
+    properties:
+      attachmentKey:
+        type: "string"
+      attachmentValue:
+        type: "string"
+      uuId:
+        type: "string"
+    example:
+      attachmentKey: "attachmentKey"
+      attachmentValue: "attachmentValue"
+      uuId: "uuId"
+  BusinessObj:
+    type: "object"
+    properties:
+      _id:
+        type: "string"
+      name:
+        type: "string"
+      address:
+        type: "string"
+      owner:
+        type: "string"
+        description: "Owner id"
+      beacon:
+        $ref: "#/definitions/Beacon"
+      offers:
+        type: "array"
+        items:
+          $ref: "#/definitions/Offer"
+      approved:
+        type: "boolean"
+    example:
+      owner: "owner"
+      offers:
+      - targetAudience:
+          gender: "gender"
+          maxAge: 6.02745618307040320615897144307382404804229736328125
+          minAge: 0.80082819046101150206595775671303272247314453125
+        description: "description"
+        comment: "comment"
+        expiration: "expiration"
+        title: "title"
+      - targetAudience:
+          gender: "gender"
+          maxAge: 6.02745618307040320615897144307382404804229736328125
+          minAge: 0.80082819046101150206595775671303272247314453125
+        description: "description"
+        comment: "comment"
+        expiration: "expiration"
+        title: "title"
+      approved: true
+      address: "address"
+      beacon:
+        attachmentKey: "attachmentKey"
+        attachmentValue: "attachmentValue"
+        uuId: "uuId"
+      name: "name"
+      _id: "_id"
+  Customer:
+    type: "object"
+    properties:
+      deviceId:
+        type: "string"
+      gender:
+        type: "string"
+      dob:
+        type: "string"
+        description: "Date of birth"
+  Owner:
+    type: "object"
+    properties:
+      username:
+        type: "string"
+      email:
+        type: "string"
+      password:
+        type: "string"
+        format: "password"
+      businesses:
+        type: "array"
+        items:
+          $ref: "#/definitions/BusinessObj"
+  Visit:
+    type: "object"
+    properties:
+      business:
+        $ref: "#/definitions/BusinessObj"
+      customer:
+        $ref: "#/definitions/Customer"
+  business:
+    properties:
+      business:
+        $ref: "#/definitions/BusinessObj"
+  inline_response_200:
+    properties:
+      code:
+        type: "number"
+      message:
+        type: "string"
+    example:
+      code: 0.80082819046101150206595775671303272247314453125
+      message: "message"
+  inline_response_200_1:
+    properties:
+      code:
+        type: "number"
+      message:
+        type: "string"
+      data:
+        type: "array"
+        items:
+          $ref: "#/definitions/Beacon"
+    example:
+      code: 0.80082819046101150206595775671303272247314453125
+      data:
+      - attachmentKey: "attachmentKey"
+        attachmentValue: "attachmentValue"
+        uuId: "uuId"
+      - attachmentKey: "attachmentKey"
+        attachmentValue: "attachmentValue"
+        uuId: "uuId"
+      message: "message"
+  body:
+    properties:
+      uuId:
+        type: "string"
+  inline_response_200_2:
+    properties:
+      code:
+        type: "number"
+      message:
+        type: "string"
+      data:
+        type: "array"
+        items:
+          $ref: "#/definitions/Offer"
+      business:
+        $ref: "#/definitions/BusinessObj"
+    example:
+      code: 0.80082819046101150206595775671303272247314453125
+      data:
+      - targetAudience:
+          gender: "gender"
+          maxAge: 6.02745618307040320615897144307382404804229736328125
+          minAge: 0.80082819046101150206595775671303272247314453125
+        description: "description"
+        comment: "comment"
+        expiration: "expiration"
+        title: "title"
+      - targetAudience:
+          gender: "gender"
+          maxAge: 6.02745618307040320615897144307382404804229736328125
+          minAge: 0.80082819046101150206595775671303272247314453125
+        description: "description"
+        comment: "comment"
+        expiration: "expiration"
+        title: "title"
+      business:
+        owner: "owner"
+        offers:
+        - targetAudience:
+            gender: "gender"
+            maxAge: 6.02745618307040320615897144307382404804229736328125
+            minAge: 0.80082819046101150206595775671303272247314453125
+          description: "description"
+          comment: "comment"
+          expiration: "expiration"
+          title: "title"
+        - targetAudience:
+            gender: "gender"
+            maxAge: 6.02745618307040320615897144307382404804229736328125
+            minAge: 0.80082819046101150206595775671303272247314453125
+          description: "description"
+          comment: "comment"
+          expiration: "expiration"
+          title: "title"
+        approved: true
+        address: "address"
+        beacon:
+          attachmentKey: "attachmentKey"
+          attachmentValue: "attachmentValue"
+          uuId: "uuId"
+        name: "name"
+        _id: "_id"
+      message: "message"
