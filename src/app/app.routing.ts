@@ -15,7 +15,7 @@ const routes: Routes =[
     // { path: 'interests', component: InterestsComponent },
     // { path: 'satisfaction', component: SatisfactionComponent},
     // { path: 'involvement', component: InvolvementComponent},
-      { path: '',          redirectTo: 'demographic', pathMatch: 'full' }
+      { path: '', redirectTo: 'map', pathMatch: 'full' }
 ];
 
 @NgModule({

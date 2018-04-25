@@ -52,15 +52,15 @@ export class MapsComponent implements OnInit {
 
   claimOnClick(polygon) {
     if (!polygon.isClaimed) {
-      this.service.claimBusiness(this.ownerId, polygon._id)
-        .subscribe(data => {
+      // this.service.claimBusiness(this.ownerId, polygon._id)
+      //   .subscribe(data => {
             polygon.isClaimed = true;
-        });
+        // });
     } else {
-      this.service.declaimBusiness(this.ownerId, polygon._id)
-        .subscribe(data => {
+      // this.service.declaimBusiness(this.ownerId, polygon._id)
+      //   .subscribe(data => {
           polygon.isClaimed = false;
-        });
+        // });
     }
   }
 
