@@ -43,7 +43,8 @@ const businessSchema = new mongoose.Schema({
     address: { type: String },
     beacon: { type: beaconSchema },
     offers: { type: [offerSchema], required: true },
-    approved: { type: Boolean, default: false, required: true }
+    // approved: { type: Boolean, default: false, required: true },
+    owner: { type: mongoose.Schema.Types.ObjectId, ref: 'Owner' }
 }, { 
   timestamps: true,
   strict: false

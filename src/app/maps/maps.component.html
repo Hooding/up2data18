@@ -1,7 +1,7 @@
 <!-- <div id="map"></div> -->
 
 <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [disableDefaultUI]="false" [zoomControl]="true" [styles]="styles">
-    <agm-polygon *ngFor="let polygon of polygons" [paths]="polygon.points" [fillColor]="polygon.isClaimed ? 'green' : ''" (polyClick)="polyClicked(polygon, infoWindow)">
+    <agm-polygon *ngFor="let polygon of polygons" [paths]="polygon.points" [fillColor]="renderClaimed(polygon)" [strokeColor]="renderClaimed(polygon)" (polyClick)="polyClicked(polygon, infoWindow)">
         <agm-info-window #infoWindow [latitude]="selectedPoint?.lat" [longitude]="selectedPoint?.lng" [isOpen]="isOpen">
             <strong>
                 <form>
@@ -13,7 +13,7 @@
                     </div>
                     <div class="row">
                         <div *ngIf="polygon.isClaimed" class="col-md-12">
-                            <button type="button" class="btn btn-danger">DE-CLAIM</button>
+                            <button type="button" class="btn btn-danger" (click)="claimOnClick(polygon)">DE-CLAIM</button>
                             <button type="button" class="btn btn-primary btn-fill">EDIT</button>
                             <button type="button" class="btn btn-primary btn-fill">STATS</button>
                         </div>
