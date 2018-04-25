@@ -5,16 +5,17 @@ info:
   version: "0.0.1"
   title: "city"
 host: "localhost:8080"
+basePath: "/api"
 schemes:
 - "http"
 paths:
-  /business:
+  /businesses:
     get:
       tags:
-      - "Business"
+      - "BusinessSide"
       summary: "Get all businesses"
       description: "Fetches all businesses owned by the owner and not owned by anyone."
-      operationId: "businessGET"
+      operationId: "businessesGET"
       parameters:
       - name: "owner"
         in: "header"
@@ -26,15 +27,16 @@ paths:
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/Business"
-      x-swagger-router-controller: "Business"
-  /business/{businessId}:
+              $ref: "#/definitions/BusinessObj"
+      x-swagger-router-controller: "BusinessSide"
+  /businesses/{businessId}:
     patch:
       tags:
-      - "Business"
-      summary: "CHANGEME"
-      description: "CHANGEME"
-      operationId: "businessBusinessIdPATCH"
+      - "BusinessSide"
+      summary: "Update business info."
+      description: "Updates the business info after an edit has happened on client\
+        \ side."
+      operationId: "businessesBusinessIdPATCH"
       parameters:
       - name: "businessId"
         in: "path"
@@ -50,14 +52,14 @@ paths:
           description: "OK"
       security:
       - JWT: []
-      x-swagger-router-controller: "Business"
-  /business/claim/{businessId}:
+      x-swagger-router-controller: "BusinessSide"
+  /businesses/claim/{businessId}:
     patch:
       tags:
-      - "Business"
+      - "BusinessSide"
       summary: "Claims the business."
       description: "Claims the business using the business id of the owner."
-      operationId: "businessClaimBusinessIdPATCH"
+      operationId: "businessesClaimBusinessIdPATCH"
       parameters:
       - name: "owner"
         in: "header"
@@ -74,14 +76,14 @@ paths:
             $ref: "#/definitions/inline_response_200"
       security:
       - JWT: []
-      x-swagger-router-controller: "Business"
-  /business/declaim/{businessId}:
+      x-swagger-router-controller: "BusinessSide"
+  /businesses/declaim/{businessId}:
     patch:
       tags:
-      - "Business"
-      summary: "Claims the business."
-      description: "Claims the business using the business id of the owner."
-      operationId: "businessDeclaimBusinessIdPATCH"
+      - "BusinessSide"
+      summary: "Unclaims the business."
+      description: "Unlaims the business using the business id of the owner."
+      operationId: "businessesDeclaimBusinessIdPATCH"
       parameters:
       - name: "owner"
         in: "header"
@@ -98,7 +100,7 @@ paths:
             $ref: "#/definitions/inline_response_200"
       security:
       - JWT: []
-      x-swagger-router-controller: "Business"
+      x-swagger-router-controller: "BusinessSide"
   /getAllZones:
     post:
       tags:
@@ -165,7 +167,6 @@ definitions:
         $ref: "#/definitions/TargetAudience"
       expiration:
         type: "string"
-        format: "date"
     example:
       targetAudience:
         gender: "gender"
@@ -173,7 +174,7 @@ definitions:
         minAge: 0.80082819046101150206595775671303272247314453125
       description: "description"
       comment: "comment"
-      expiration: "2000-01-23"
+      expiration: "expiration"
       title: "title"
   Beacon:
     type: "object"
@@ -188,7 +189,7 @@ definitions:
       attachmentKey: "attachmentKey"
       attachmentValue: "attachmentValue"
       uuId: "uuId"
-  Business:
+  BusinessObj:
     type: "object"
     properties:
       _id:
@@ -217,7 +218,7 @@ definitions:
           minAge: 0.80082819046101150206595775671303272247314453125
         description: "description"
         comment: "comment"
-        expiration: "2000-01-23"
+        expiration: "expiration"
         title: "title"
       - targetAudience:
           gender: "gender"
@@ -225,7 +226,7 @@ definitions:
           minAge: 0.80082819046101150206595775671303272247314453125
         description: "description"
         comment: "comment"
-        expiration: "2000-01-23"
+        expiration: "expiration"
         title: "title"
       approved: true
       address: "address"
@@ -258,18 +259,18 @@ definitions:
       businesses:
         type: "array"
         items:
-          $ref: "#/definitions/Business"
+          $ref: "#/definitions/BusinessObj"
   Visit:
     type: "object"
     properties:
       business:
-        $ref: "#/definitions/Business"
+        $ref: "#/definitions/BusinessObj"
       customer:
         $ref: "#/definitions/Customer"
   business:
     properties:
       business:
-        $ref: "#/definitions/Business"
+        $ref: "#/definitions/BusinessObj"
   inline_response_200:
     properties:
       code:
@@ -314,7 +315,7 @@ definitions:
         items:
           $ref: "#/definitions/Offer"
       business:
-        $ref: "#/definitions/Business"
+        $ref: "#/definitions/BusinessObj"
     example:
       code: 0.80082819046101150206595775671303272247314453125
       data:
@@ -324,7 +325,7 @@ definitions:
           minAge: 0.80082819046101150206595775671303272247314453125
         description: "description"
         comment: "comment"
-        expiration: "2000-01-23"
+        expiration: "expiration"
         title: "title"
       - targetAudience:
           gender: "gender"
@@ -332,7 +333,7 @@ definitions:
           minAge: 0.80082819046101150206595775671303272247314453125
         description: "description"
         comment: "comment"
-        expiration: "2000-01-23"
+        expiration: "expiration"
         title: "title"
       business:
         owner: "owner"
@@ -343,7 +344,7 @@ definitions:
             minAge: 0.80082819046101150206595775671303272247314453125
           description: "description"
           comment: "comment"
-          expiration: "2000-01-23"
+          expiration: "expiration"
           title: "title"
         - targetAudience:
             gender: "gender"
@@ -351,7 +352,7 @@ definitions:
             minAge: 0.80082819046101150206595775671303272247314453125
           description: "description"
           comment: "comment"
-          expiration: "2000-01-23"
+          expiration: "expiration"
           title: "title"
         approved: true
         address: "address"

@@ -42,10 +42,10 @@
 //  */
 // const scheduler = require('node-schedule');
 
-// /** custom-made logger module. */
-// const logger = require('./util/logger');
+/** custom-made logger module. */
+const logger = require('./util/logger');
 
-// /** custom-made database connection module. */
+/** custom-made database connection module. */
 // const db = require('./model/db');
 
 // /** custom-made router module. */
@@ -101,8 +101,8 @@
 // const server = http.createServer(app);
 
 
-// /* listen on provided port, on all network interfaces.
-//     connect to database. */
+/* listen on provided port, on all network interfaces.
+    connect to database. */
 // server.listen(port, () => {
 //     logger.info('HTTP-SERVER', 'server.js:server.listen', `server listening on localhost:${port}`);
 //     db.connect();

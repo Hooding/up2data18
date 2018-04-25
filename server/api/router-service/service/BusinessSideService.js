@@ -1,5 +1,8 @@
 'use strict';
 
+const mongoose = require('mongoose');
+
+const Business = require('../../../model/business/business.model');
 
 /**
  * Update business info.
@@ -50,11 +53,12 @@ exports.businessesClaimBusinessIdPATCH = function(owner,businessId) {
  **/
 exports.businessesDeclaimBusinessIdPATCH = function(owner,businessId) {
   return new Promise(function(resolve, reject) {
+
     var examples = {};
     examples['application/json'] = {
-  "code" : 0.80082819046101150206595775671303272247314453125,
-  "message" : "message"
-};
+      "code" : 0.80082819046101150206595775671303272247314453125,
+      "message" : "message"
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -73,77 +77,17 @@ exports.businessesDeclaimBusinessIdPATCH = function(owner,businessId) {
  **/
 exports.businessesGET = function(owner) {
   return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = [ {
-  "owner" : "owner",
-  "offers" : [ {
-    "targetAudience" : {
-      "gender" : "gender",
-      "maxAge" : 6.02745618307040320615897144307382404804229736328125,
-      "minAge" : 0.80082819046101150206595775671303272247314453125
-    },
-    "description" : "description",
-    "comment" : "comment",
-    "expiration" : "expiration",
-    "title" : "title"
-  }, {
-    "targetAudience" : {
-      "gender" : "gender",
-      "maxAge" : 6.02745618307040320615897144307382404804229736328125,
-      "minAge" : 0.80082819046101150206595775671303272247314453125
-    },
-    "description" : "description",
-    "comment" : "comment",
-    "expiration" : "expiration",
-    "title" : "title"
-  } ],
-  "approved" : true,
-  "address" : "address",
-  "beacon" : {
-    "attachmentKey" : "attachmentKey",
-    "attachmentValue" : "attachmentValue",
-    "uuId" : "uuId"
-  },
-  "name" : "name",
-  "_id" : "_id"
-}, {
-  "owner" : "owner",
-  "offers" : [ {
-    "targetAudience" : {
-      "gender" : "gender",
-      "maxAge" : 6.02745618307040320615897144307382404804229736328125,
-      "minAge" : 0.80082819046101150206595775671303272247314453125
-    },
-    "description" : "description",
-    "comment" : "comment",
-    "expiration" : "expiration",
-    "title" : "title"
-  }, {
-    "targetAudience" : {
-      "gender" : "gender",
-      "maxAge" : 6.02745618307040320615897144307382404804229736328125,
-      "minAge" : 0.80082819046101150206595775671303272247314453125
-    },
-    "description" : "description",
-    "comment" : "comment",
-    "expiration" : "expiration",
-    "title" : "title"
-  } ],
-  "approved" : true,
-  "address" : "address",
-  "beacon" : {
-    "attachmentKey" : "attachmentKey",
-    "attachmentValue" : "attachmentValue",
-    "uuId" : "uuId"
-  },
-  "name" : "name",
-  "_id" : "_id"
-} ];
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
+    Business.find({}, (err, docs) => {
+      console.log(err);
+      var examples = {};
+      examples['application/json'] = docs;
+      console.log(docs);
+      if (Object.keys(examples).length > 0) {
+        resolve(examples[Object.keys(examples)[0]]);
+      } else {
+        resolve();
+      }
+    });
   });
 }
 

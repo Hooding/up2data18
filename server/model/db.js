@@ -56,7 +56,8 @@ connection.on('error', () => {
 
 /* on successful connection, log a message. */
 connection.once('open', () => {
-    logger.info('DB', 'db.js:mongoose.connect', `successfully connected to: ${currentDB}`);
+    // logger.info('DB', 'db.js:mongoose.connect', `successfully connected to: ${currentDB}`);
+    console.log('DB', 'db.js:mongoose.connect', `successfully connected to: ${currentDB}`);
 });
 
 const Owner = require('../model/owner/owner.model');
