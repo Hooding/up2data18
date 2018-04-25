@@ -18,8 +18,8 @@ const bcrypt = require('bcrypt');
 const ownerSchema = new mongoose.Schema({
     username: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    businesses: { type: [mongoose.Schema.Types.ObjectId], ref: 'Business', unique: true }
+    password: { type: String, required: true }
+    // businesses: { type: [mongoose.Schema.Types.ObjectId], ref: 'Business', unique: true }
 }, {
     timestamps: true
 });

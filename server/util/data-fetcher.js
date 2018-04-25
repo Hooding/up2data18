@@ -1,33 +1,45 @@
 const axios = require('axios');
 
-const xmlParser = require('@rgrove/parse-xml');
-
 const logger = require('./logger');
 
-const Event = require('../model/event/event.model');
+const Business = require('../model/business/business.model');
 
 let timestamp;
 
 module.exports.fetch = () => {
-    // const fnName = 'event-fetcher:fetch';
+    const fnName = 'event-fetcher:fetch';
 
-    // axios.get('http://www1.haifa.muni.il/simona/eruim.xml')
-    //     .then(response => {
-    //         const root = xmlParser(response.data).children[0];
-    //         const events = root.children.filter(child => child.type === 'element');
-    //         logger.info('SERVER', fnName, `${events.length} events fetched successfully`);
-    //         if (!timestamp || timestamp !== root.attributes.generated) {
-    //             timestamp = root.attributes.generated;
-    //             saveToDb(events);
-    //         }
-    //     })
-    //     .catch(error => logger.error('SCHEDULE', fnName, error));
+    axios.get('http://opendata.br7.org.il/datasets/geojson/buildings.geojson')
+        .then(response => {
+            // console.log(response.data.features.filter(feature => feature.properties.Used === 'מסחרי')[0]);
+                const docs = response.data.features.filter(feature => feature.properties.Used === 'מסחרי')
+                    .map(feature => { 
+                        return {
+                            name: feature.properties.Name,
+                            properties: feature.properties,
+                            geometry: feature.geometry,
+                            geoId: generateGeoId(feature.geometry)
+                        };
+                    }
+                );
+                // console.log(docs[0]);
+                Business.insertMany(docs, { ordered: false }, (err, res) => {
+                    // if (err) {
+                        // console.error(err);
+                    // } else {
+                        // console.log(res);
+                    // }
+                });
+        })
+        .catch(error => logger.error('SCHEDULE', fnName, error));
 }
 
-function saveToDb(events) { // TODO
-    // Event.insertMany(cleanseAndBuild(events));
-    cleanseAndBuild(events);
-}
-
-function cleanseAndBuild(events) { // TODO
+function generateGeoId(geometry) {
+    return geometry.coordinates.map(elem => {
+        let str = '';
+        for (let i = 0; i < elem.length; i++) {
+            str += `${elem[1]},`;
+        } 
+        return str;
+    })[0];
 }

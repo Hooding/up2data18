@@ -21,30 +21,35 @@ const targetAudienceSchema = new mongoose.Schema({
 
 const offerSchema = new mongoose.Schema({
   _id: { auto: false },
-  title: { type: String, required: true },
+  title: { type: String },
   comment: { type: String },
   description: { type: String },
   targetAudience: {
-    type: targetAudienceSchema,
-    required: true
+    type: targetAudienceSchema
   },
   expiration: { type: Date }
 });
 
 const beaconSchema = new mongoose.Schema({
   _id: { auto: false },
-  attachmentKey: { type: String, required: true, unique: true },
-  attachmentValue: { type: String, required: true },
-  uuId: { type: String, required: true, unique: true }
+  attachmentKey: { type: String },
+  attachmentValue: { type: String },
+  uuId: { type: String }
 })
 
 const businessSchema = new mongoose.Schema({
-    Name: { type: String },
+    name: { type: String },
     address: { type: String },
     beacon: { type: beaconSchema },
-    offers: { type: [offerSchema], required: true },
+    // beacon: {
+    //   attachmentKey: { type: String },
+    //   attachmentValue: { type: String },
+    //   uuId: { type: String }
+    // },
+    offers: { type: [offerSchema] },
     // approved: { type: Boolean, default: false, required: true },
-    owner: { type: mongoose.Schema.Types.ObjectId, ref: 'Owner' }
+    owner: { type: mongoose.Schema.Types.ObjectId, ref: 'Owner' },
+    geoId: { type: String, required: true, unique: true }
 }, { 
   timestamps: true,
   strict: false

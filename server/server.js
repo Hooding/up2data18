@@ -107,7 +107,6 @@ server.listen(port, () => {
     db.connect();
 });
 
-
 const dataFetcher = require('./util/data-fetcher.js');
 
 dataFetcher.fetch();
